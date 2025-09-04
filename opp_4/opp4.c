@@ -1,59 +1,78 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
 
-/* På universitetet i skomakergata må 4 av 6 obligatoriske arbeidskrav være godkjent
-for at man skal kunne gå opp til eksamen. I tillegg så må arbeidskrav 3 eller 6
-(eller begge) være godkjent.
-
-Lag en funksjon som sjekker om en gitt student får lov å gå opp til eksamen.
-Hvis kravene over er oppfylt returnerer funksjonen True, ellers False. Funksjonen
-tar et argument som er en liste/tabell(array). Beskriv i koden hvordan du velger
-å sette opp lista/tabellen(arrayet).
-
-Tips: C: Bruk stdbool.h
- */
-
-/* Tabell structur
-Eksempel:
-1 | Godkjent
-2 | Ikke godkjent */
-struct StudentTasks
+void checkArbeidskrav(int arr[])
 {
-    int i;      /* arbeidskrav nummer */
-    char c[20]; /* arbeidskrav Godkjent / Ikke godkjent */
-};
-
-void checkStudentTask(struct StudentTasks list[])
-{
-    int i;
-    char ikkeG[20] = "Ikke godkjent";
-
-    for (i = 0; i < 6; i++)
+    if (!arr[2] || !arr[5])
     {
-        if (strcmp(list[i].c, ikkeG) != 0)
-        {
-            /* if (strcmp(list[2].c, ikkeG) == 0 || strcmp(list[5].c, ikkeG) == 0)
-            {
-                printf("Ikke gokjent obligatorisk arbeidskrav: %d %s\n", list[2].i, list[2].c);
-                i += 1;
-                printf("Ikke godkjent obligatorisk arbeidskrav: %d\n", list[i].i);
-                break;
-            } */
+        printf("False\n"); /* Ikke godkjent ak 3 eller 6 */
+        return;
+    }
 
-            printf("Ikke nok godkjent arbeidskrav for å gå opp til eksamen:");
-        }
-        else
+    int godkjent = 0;
+
+    for (int i = 0; i < 6; i++)
+    {
+        if (arr[i])
         {
-            printf("Du går opp til eksamen");
+            godkjent += 1;
         }
     }
+
+    if (!(godkjent >= 4))
+    {
+        printf("False\n");
+        return;
+    }
+
+    printf("True\n");
 }
 
 int main()
 {
-    struct StudentTasks num[6] = {{1, "Ikke godkjent"}, {2, "Godkjent"}, {3, "Godkjent"}, {4, "Ikke godkjent"}, {5, "Godkjent"}, {6, "Ikke godkjent"}};
+    int student_1[6] = {
+        true,
+        false,
+        true,
+        false,
+        false, true};
+    int student_2[6] = {
+        false,
+        true,
+        true,
+        false,
+        true, true};
+    int student_3[6] = {
+        true,
+        true,
+        false,
+        true,
+        true, true};
+    int student_4[6] = {
+        true,
+        true,
+        false,
+        true,
+        true, false};
+    int student_5[6] = {
+        true,
+        true,
+        true,
+        true,
+        false, false};
+    int student_6[6] = {
+        true,
+        true,
+        true,
+        true,
+        true, true};
 
-    checkStudentTask(num);
+    checkArbeidskrav(student_1); /* False (3 godkjent (#3 og #6 er godkjent))*/
+    checkArbeidskrav(student_2); /* True (4 godkjent (#3 og #6 er godkjent))*/
+    checkArbeidskrav(student_3); /* False (5 godkjent (#3 er ikke godkjent))*/
+    checkArbeidskrav(student_4); /* False (4 godkjent (#3 og #6 er ikke godkjent))*/
+    checkArbeidskrav(student_5); /* False (4 godkjent (#6 er ikke godkjent))*/
+    checkArbeidskrav(student_6); /* True (6 godkjent)*/
+
     return 0;
 }
